@@ -16,6 +16,6 @@ RUN npm install --only=production
 
 RUN rm package*.json
 
-EXPOSE 3000
+EXPOSE 4000
 
 CMD ["pm2 start", "dist/main.js"]

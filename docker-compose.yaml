@@ -3,12 +3,10 @@ version: '3'
 services:
   backend:
     build: ./
-    container_name: nestjs_api
+    container_name: nestjs_api2
     environment:
-      - PORT=4000
-      - MONGO_URI=mongodb://mongo_db:27017/mongo-graphql
-    ports:
-      - '3000:3000'
+      - RABBIT_MQ=amqp://http://107.21.134.141:5672
+
     depends_on:
       - database
       - rabbitmq
