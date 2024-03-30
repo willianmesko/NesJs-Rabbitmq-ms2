@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  backend:
+    build: ./
+    container_name: nestjs_api
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo_db:27017/mongo-graphql
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+      - rabbitmq
+    networks:
+      - nestjs_network
+
+  database:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_USER=user
+      - POSTGRES_DB=products
+    networks:
+      - nestjs_network
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - 'rabbitmq_data:/data'
+
+volumes:
+  rabbitmq_data:
+networks:
+  nestjs_network:
+    driver: bridge
