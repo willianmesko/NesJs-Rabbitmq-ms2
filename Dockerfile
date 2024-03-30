@@ -1,3 +1,17 @@
+#build stage
+
+FROM node:18-alpine AS build
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
 #prod stage
 FROM node:18-alpine 
 
@@ -16,6 +30,6 @@ RUN npm install --only=production
 
 RUN rm package*.json
 
-EXPOSE 4000
+EXPOSE 3000
 
 CMD ["pm2 start", "dist/main.js"]
